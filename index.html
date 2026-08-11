@@ -805,6 +805,256 @@ body::before{
   50% { filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.6)); }
 }
 
+/* =========================================================
+   CUADRO COMPARATIVO
+========================================================= */
+.compare-section{
+  margin: 60px 0;
+  animation: fadeUp 1s ease both;
+}
+
+.compare-eyebrow{
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--g4);
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.compare-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 3.4vw, 32px);
+  color: var(--ink);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.compare-intro{
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--ink-dim);
+  max-width: 640px;
+  margin: 0 auto 36px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.compare-table-wrap{
+  overflow-x: auto;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px hsla(0,0%,0%,0.06);
+}
+
+.compare-table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+}
+
+.compare-table caption{
+  caption-side: top;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 14px 20px 0;
+}
+
+.compare-table thead th{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14.5px;
+  text-align: left;
+  padding: 16px 20px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+
+.compare-table thead th:first-child{
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.compare-table thead th:not(:first-child){
+  border-left: 1px solid var(--card-border);
+}
+
+.compare-table thead th:nth-child(2){ color: var(--g4); }
+.compare-table thead th:nth-child(3){ color: var(--g6); }
+.compare-table thead th:nth-child(4){ color: var(--g2); }
+.compare-table thead th:nth-child(5){ color: var(--g7); }
+
+.compare-table tbody td{
+  padding: 14px 20px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+  vertical-align: top;
+  border-top: 1px solid var(--card-border);
+}
+
+.compare-table tbody td:not(:first-child){
+  border-left: 1px solid var(--card-border);
+}
+
+.compare-table tbody th{
+  padding: 14px 20px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--ink);
+  border-top: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+
+.compare-table tbody tr:hover td,
+.compare-table tbody tr:hover th{
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+.compare-table tbody tr:nth-child(1){ --accent: var(--g1); }
+.compare-table tbody tr:nth-child(2){ --accent: var(--g4); }
+.compare-table tbody tr:nth-child(3){ --accent: var(--g6); }
+.compare-table tbody tr:nth-child(4){ --accent: var(--g2); }
+.compare-table tbody tr:nth-child(5){ --accent: var(--g7); }
+
+/* Bloque de diferencias clave, debajo del cuadro */
+.diff-block{
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.diff-card{
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.diff-card h3{
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.diff-card p{
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.diff-card--metodologia h3{ color: var(--g4); }
+.diff-card--proceso h3{ color: var(--g6); }
+.diff-card--framework h3{ color: var(--g2); }
+.diff-card--modelo h3{ color: var(--g7); }
+
+@media (max-width: 700px){
+  .diff-block{ grid-template-columns: 1fr; }
+}
+
+/* En teléfono, la tabla deja de tener scroll horizontal:
+   cada criterio se convierte en una tarjeta y cada columna
+   (Metodología / Proceso / Framework / Modelo) en una fila con etiqueta. */
+@media (max-width: 680px){
+  .compare-section{ margin: 40px 0; }
+  .compare-intro{ margin-bottom: 24px; }
+
+  .compare-table-wrap{
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .compare-table{
+    min-width: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+    font-size: 13px;
+  }
+
+  .compare-table caption{ padding: 0 2px 12px; }
+
+  .compare-table thead{
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .compare-table tbody tr{
+    display: block;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 20px hsla(0,0%,0%,0.05);
+    overflow: hidden;
+  }
+
+  .compare-table tbody th{
+    display: block;
+    white-space: normal;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-top: none;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .compare-table tbody td{
+    display: block;
+    padding: 10px 16px;
+    border-top: none;
+    border-left: none !important;
+  }
+
+  .compare-table tbody td:not(:last-child){
+    border-bottom: 1px dashed var(--card-border);
+  }
+
+  .compare-table tbody td::before{
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .compare-table tbody tr:hover td,
+  .compare-table tbody tr:hover th{
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .diff-card{ padding: 16px 18px; }
+}
+
 </style>
 </head>
 <body>
@@ -982,6 +1232,61 @@ body::before{
         <span class="tl-year">1982 – Actualidad</span>
       </div>
       <div class="tl-side tl-side--right tl-side--empty"><div class="tl-card"></div></div>
+    </div>
+
+  </section>
+
+  <section class="compare-section wrap" id="cuadro-comparativo">
+    <p class="compare-eyebrow">Análisis conceptual</p>
+    <h2 class="compare-title">Metodología, proceso, framework y modelo</h2>
+    <p class="compare-intro">
+      Cuatro términos que suelen confundirse en el desarrollo de software.
+      Aquí se comparan según su definición, su diferencia frente a los demás, cómo se relacionan entre sí y un ejemplo típico.
+    </p>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <caption>Cuadro comparativo</caption>
+        <thead>
+          <tr>
+            <th scope="col">Criterio</th>
+            <th scope="col">Metodología</th>
+            <th scope="col">Proceso</th>
+            <th scope="col">Framework</th>
+            <th scope="col">Modelo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Definición</th>
+            <td data-label="Metodología">Conjunto de principios, técnicas y buenas prácticas que guían cómo se debe trabajar.</td>
+            <td data-label="Proceso">Secuencia de pasos o actividades organizadas para transformar entradas en resultados.</td>
+            <td data-label="Framework">Estructura de soporte con herramientas, reglas y componentes reutilizables ya definidos.</td>
+            <td data-label="Modelo">Representación simplificada o abstracta de un sistema, idea o realidad.</td>
+          </tr>
+          <tr>
+            <th scope="row">Diferencia</th>
+            <td data-label="Metodología">No indica pasos exactos ni herramientas; es la filosofía general detrás del "cómo" trabajar.</td>
+            <td data-label="Proceso">No dice por qué se trabaja así, solo el orden concreto de las actividades a ejecutar.</td>
+            <td data-label="Framework">No es una idea ni una guía, sino código y componentes ya construidos para usar directamente.</td>
+            <td data-label="Modelo">No ejecuta ni ordena tareas; solo representa o explica cómo funciona algo.</td>
+          </tr>
+          <tr>
+            <th scope="row">Comparación</th>
+            <td data-label="Metodología">Es más abstracta que un proceso y más flexible que un framework; puede apoyarse en varios modelos.</td>
+            <td data-label="Proceso">Concreta lo que la metodología propone; suele ejecutarse con ayuda de un framework.</td>
+            <td data-label="Framework">Es la herramienta que facilita aplicar tanto la metodología como el proceso en la práctica.</td>
+            <td data-label="Modelo">Puede describir a la metodología, el proceso o el framework, sin ser ninguno de ellos.</td>
+          </tr>
+          <tr>
+            <th scope="row">Ejemplo típico</th>
+            <td data-label="Metodología">Scrum, Kanban, XP.</td>
+            <td data-label="Proceso">Proceso de integración continua o de control de calidad.</td>
+            <td data-label="Framework">Django, Angular, .NET.</td>
+            <td data-label="Modelo">Modelo en cascada, modelo espiral, modelo entidad-relación.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </section>
