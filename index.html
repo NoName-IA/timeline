@@ -306,6 +306,10 @@ html.theme-dark .theme-icon-moon{ display:block; }
   padding-top:28px;
 }
 
+.tl-year{
+  display:none;
+}
+
 .tl-node{
   width:56px; height:56px;
   border-radius:50%;
@@ -448,12 +452,17 @@ html.theme-dark .theme-icon-moon{ display:block; }
   .site-subtitle{ font-size:14px; max-width:640px; }
 
   .tl-row{
-    grid-template-columns: 42px 1fr;
+    grid-template-columns: 42px minmax(0, 1fr);
     gap: 12px;
   }
-  .timeline-track{ left:20px; transform:none; }
+  .timeline-track{ left:22px; transform:none; }
 
-  .tl-node-col{ grid-column:1; padding-top:24px; }
+  .tl-node-col{
+    grid-column:1;
+    padding-top:18px;
+    justify-self:center;
+    align-items:flex-start;
+  }
   .tl-node{ width:38px; height:38px; }
   .tl-node svg{ width:16px; height:16px; }
   .tl-year{ display:none; }
@@ -463,7 +472,7 @@ html.theme-dark .theme-icon-moon{ display:block; }
     grid-column:2;
     justify-content:flex-start;
     text-align:left;
-    padding:16px 0 16px 6px;
+    padding:8px 0 16px 6px;
   }
   .tl-side--empty{ display:none; }
 
