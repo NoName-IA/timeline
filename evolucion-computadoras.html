@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolución del computador — Línea del tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   TOKENS
+========================================================= */
+:root{
+  --bg:            #f7f9fc;
+  --bg-panel:      #ffffff;
+  --ink:           #111827;
+  --ink-dim:       #475569;
+  --ink-faint:     #64748b;
+  --line-track:    #d9e2ec;
+  --card-border:   #d1d9e2;
+  --card-bg:       #ffffff;
+  --radius:        14px;
+
+  --g1: #d97706; /* bulbos */
+  --g2: #ea580c; /* transistores */
+  --g3: #be185d; /* circuitos integrados */
+  --g4: #7c3aed; /* microprocesador */
+  --g5: #2563eb; /* IA / paralelo */
+  --g6: #0ea5e9; /* internet / WAN */
+  --g7: #14b8a6; /* móvil / inalámbrico */
+  --g8: #06b6d4; /* cuántica */
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --accent: #7c3aed;
+}
+
+html.theme-light{
+  --bg:            #f7f9fc;
+  --bg-panel:      #ffffff;
+  --ink:           #111827;
+  --ink-dim:       #475569;
+  --ink-faint:     #64748b;
+  --line-track:    #d9e2ec;
+  --card-border:   #d1d9e2;
+  --card-bg:       #ffffff;
+  --node-shadow:   0 0 0 6px rgba(255,255,255,0.8);
+  --node-hover-ring: rgba(15, 23, 42, 0.20);
+}
+
+html.theme-dark{
+  --bg: #090b12;
+  --bg-panel: #10151f;
+  --ink: #eef1fb;
+  --ink-dim: #9aa3c0;
+  --ink-faint: #64748b;
+  --line-track: #181f2f;
+  --card-border: #1d2436;
+  --card-bg: #10151f;
+  --node-shadow: 0 0 0 6px #0a0d16;
+  --node-hover-ring: #0a0d16;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{
+  scroll-behavior:smooth;
+  color-scheme: light dark;
+  background-color: var(--bg);
+  min-height:100%;
+}
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #090b12;
+    --bg-panel: #10151f;
+    --ink: #eef1fb;
+    --ink-dim: #9aa3c0;
+    --ink-faint: #64748b;
+    --line-track: #181f2f;
+    --card-border: #1d2436;
+    --card-bg: #10151f;
+  }
+  html{
+    background-color: var(--bg);
+  }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .site-header,
+  .site-footer{
+    border-color: var(--card-border);
+  }
+  .badge,
+  .tl-card{
+    background: var(--bg-panel);
+    border-color: var(--card-border);
+  }
+  .footer-list a,
+  .footer-credit,
+  .meta-line,
+  .site-subtitle,
+  .tl-list li{
+    color: var(--ink-dim);
+  }
+}
+
+/* faint circuit-grid texture on the page background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(var(--line-track) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-track) 1px, transparent 1px);
+  background-size:64px 64px;
+  opacity:0.28;
+}
+
+.wrap{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 24px; }
+
+@media (max-width: 860px){
+  .wrap{ padding:0 16px; }
+}
+
+/* =========================================================
+   HERO / HEADER
+========================================================= */
+.site-header{
+  padding:56px 0 48px;
+  text-align:center;
+  border-bottom:1px solid var(--card-border);
+  margin-bottom:64px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-bottom:0;
+  flex-wrap:wrap;
+}
+
+.badge{
+  width:52px; height:52px;
+  border-radius:50%;
+  border:1.5px solid var(--card-border);
+  background:var(--bg-panel);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono);
+  font-size:11px; font-weight:600;
+  letter-spacing:0.5px;
+  color:var(--ink-dim);
+}
+
+.theme-toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:52px;
+  height:52px;
+  padding:0;
+  border-radius:50%;
+  border:1.5px solid var(--card-border);
+  background:var(--bg-panel);
+  color:var(--ink);
+  cursor:pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover{
+  background: var(--line-track);
+  transform: translateY(-1px);
+}
+
+.theme-icon{
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+}
+
+.theme-icon-moon{ display:none; }
+html.theme-dark .theme-icon-sun{ display:none; }
+html.theme-dark .theme-icon-moon{ display:block; }
+
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--g4);
+  margin:0 0 14px;
+}
+
+.site-title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(32px, 5vw, 54px);
+  letter-spacing:-0.5px;
+  margin:0 0 10px;
+  background:linear-gradient(100deg, var(--g1), var(--g4) 45%, var(--g8));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.site-subtitle{
+  font-family:var(--font-body);
+  font-size:clamp(15px, 1.6vw, 18px);
+  color:var(--ink-dim);
+  margin:0 0 26px;
+  font-weight:500;
+}
+
+.meta-line{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  color:var(--ink-faint);
+  letter-spacing:0.3px;
+}
+
+/* =========================================================
+   TIMELINE — desktop: centered track, alternating cards
+========================================================= */
+.timeline{
+  position:relative;
+  padding-bottom:40px;
+}
+
+.timeline-track{
+  position:absolute;
+  left:50%;
+  top:6px;
+  bottom:6px;
+  width:3px;
+  transform:translateX(-50%);
+  background:linear-gradient(
+    to bottom,
+    var(--g1), var(--g2), var(--g3), var(--g4),
+    var(--g5), var(--g6), var(--g7), var(--g8)
+  );
+  border-radius:3px;
+  opacity:0.85;
+  z-index:0;
+}
+
+.tl-row{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns: 1fr 84px 1fr;
+  align-items:start;
+  margin-bottom:6px;
+}
+
+.tl-row:nth-child(1){ --accent: var(--g1); }
+.tl-row:nth-child(2){ --accent: var(--g2); }
+.tl-row:nth-child(3){ --accent: var(--g3); }
+.tl-row:nth-child(4){ --accent: var(--g4); }
+.tl-row:nth-child(5){ --accent: var(--g5); }
+.tl-row:nth-child(6){ --accent: var(--g6); }
+.tl-row:nth-child(7){ --accent: var(--g7); }
+.tl-row:nth-child(8){ --accent: var(--g8); }
+
+.tl-side{ padding:28px 0; }
+.tl-side--left{ grid-column:1; display:flex; justify-content:flex-end; text-align:right; }
+.tl-side--right{ grid-column:3; display:flex; justify-content:flex-start; text-align:left; }
+.tl-side--empty{ visibility:hidden; }
+
+.tl-node-col{
+  grid-column:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:28px;
+}
+
+.tl-node{
+  width:56px; height:56px;
+  border-radius:50%;
+  background:var(--bg-panel);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--accent);
+  box-shadow: 0 0 22px -2px var(--accent);
+}
+
+.tl-node svg{ width:26px; height:26px; }
+
+.tl-card{
+  position:relative;
+  overflow:hidden;
+  max-width:440px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius);
+  padding:26px 28px;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity 0.6s ease, transform 0.6s ease,
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+.tl-card.is-visible{ opacity:1; transform:translateY(0); }
+
+.tl-gen-label{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin:0 0 6px;
+}
+
+.tl-title{
+  font-family:var(--font-display);
+  font-size:20px;
+  font-weight:600;
+  color:var(--ink);
+  margin:0 0 14px;
+  line-height:1.25;
+}
+
+.tl-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.tl-list li{
+  position:relative;
+  padding-left:16px;
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--ink-dim);
+}
+
+.tl-side--left .tl-list li{ padding-left:0; padding-right:16px; }
+
+.tl-list li::before{
+  content:"";
+  position:absolute;
+  left:0; top:8px;
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.tl-side--left .tl-list li::before{ left:auto; right:0; }
+
+.tl-list li strong{ color:var(--ink); font-weight:600; }
+
+/* =========================================================
+   FOOTER / SOURCES
+========================================================= */
+.site-footer{
+  margin-top:60px;
+  padding:36px 0 60px;
+  border-top:1px solid var(--card-border);
+}
+
+.footer-title{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin:0 0 16px;
+}
+
+.footer-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.footer-list li{
+  font-size:13px;
+  line-height:1.6;
+  color:var(--ink-faint);
+}
+
+.footer-list a{
+  color:var(--ink-dim);
+  word-break:break-word;
+  text-decoration:none;
+}
+
+.footer-list a:hover{
+  text-decoration:underline;
+}
+
+.footer-credit{
+  margin-top:26px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--ink-faint);
+}
+
+/* =========================================================
+   RESPONSIVE — tablet & mobile: single column, track on the left
+========================================================= */
+@media (max-width: 860px){
+  .wrap{ padding:0 16px; }
+  .site-header{ padding:34px 0 28px; margin-bottom:28px; }
+  .badge{ width:38px; height:38px; font-size:10px; }
+  .badges{ flex-wrap:wrap; gap:10px; }
+  .theme-toggle{ width:46px; height:46px; }
+  .theme-icon{ width:18px; height:18px; }
+  .site-title{ font-size:clamp(24px, 8vw, 34px); }
+  .site-subtitle{ font-size:14px; max-width:640px; }
+
+  .tl-row{
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+  }
+  .timeline-track{ left:20px; transform:none; }
+
+  .tl-node-col{ grid-column:1; padding-top:24px; }
+  .tl-node{ width:38px; height:38px; }
+  .tl-node svg{ width:16px; height:16px; }
+  .tl-year{ display:none; }
+
+  .tl-side--left,
+  .tl-side--right{
+    grid-column:2;
+    justify-content:flex-start;
+    text-align:left;
+    padding:16px 0 16px 6px;
+  }
+  .tl-side--empty{ display:none; }
+
+  .tl-side--left .tl-list li{ padding-left:16px; padding-right:0; }
+  .tl-side--left .tl-list li::before{ left:0; right:auto; }
+
+  .tl-card{ max-width:100%; width:100%; padding:18px 16px; }
+  .tl-year-mobile{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent);
+    margin-bottom:8px;
+  }
+}
+
+@media (min-width: 861px){
+  .tl-year-mobile{ display:none; }
+}
+
+@media (max-width: 620px){
+  .wrap{ padding:0 14px; }
+  .site-header{ padding:30px 0 24px; }
+  .badge{ width:36px; height:36px; }
+  .theme-toggle{ width:42px; height:42px; }
+  .theme-icon{ width:16px; height:16px; }
+  .site-title{ font-size:clamp(22px, 9vw, 30px); }
+  .site-subtitle{ font-size:13px; }
+
+  .tl-row{ grid-template-columns: 38px 1fr; }
+  .timeline-track{ left:18px; }
+  .tl-node{ width:34px; height:34px; }
+  .tl-node svg{ width:14px; height:14px; }
+  .tl-card{ padding:16px 14px; }
+  .tl-list li{ font-size:13.5px; }
+}
+
+@media (max-width: 480px){
+  .site-header{ padding:36px 0 28px; }
+  .tl-card{ padding:18px 16px; }
+  .tl-title{ font-size:17px; }
+  .footer-list li{ font-size:12px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tl-card{ transition:none; opacity:1; transform:none; }
+}
+
+/* =========================================================
+   EXTRA ANIMATIONS
+========================================================= */
+
+/* Hero flotante */
+.site-header{
+  animation: headerFade 1.2s ease both;
+}
+
+.site-title{
+  animation: glowTitle 5s ease-in-out infinite alternate;
+}
+
+.site-subtitle{
+  animation: fadeUp 1s ease 0.2s both;
+}
+
+.meta-line{
+  animation: fadeUp 1s ease 0.4s both;
+}
+
+/* Badges con rebote suave */
+.badge{
+  animation: badgeFloat 4s ease-in-out infinite;
+}
+
+.badge:nth-child(2){
+  animation-delay: -2s;
+}
+
+/* Línea principal con brillo animado */
+.timeline-track{
+  background-size: 100% 300%;
+  animation: trackGlow 8s linear infinite;
+}
+
+/* Nodos pulsando */
+.tl-node{
+  animation: pulseNode 3s ease-in-out infinite;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.tl-node:hover{
+  transform: scale(1.15) rotate(6deg);
+  box-shadow: 0 0 32px 6px var(--accent);
+}
+
+.tl-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    hsla(0, 0%, 100%, 0.08) 35%,
+    hsla(0, 0%, 100%, 0.18) 50%,
+    hsla(0, 0%, 100%, 0.08) 65%,
+    transparent 100%);
+  transform: translateX(-120%);
+  transition: transform .7s ease;
+  pointer-events: none;
+}
+
+.tl-card:hover::before{
+  transform: translateX(120%);
+}
+
+.tl-card:hover{
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--accent);
+  box-shadow:
+    0 18px 40px hsla(0, 0%, 0%, 0.35),
+    0 0 24px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.tl-year{
+  animation: yearFloat 5s ease-in-out infinite;
+}
+
+/* Aparición escalonada */
+.tl-row:nth-child(1) .tl-card{ animation-delay: .05s; }
+.tl-row:nth-child(2) .tl-card{ animation-delay: .12s; }
+.tl-row:nth-child(3) .tl-card{ animation-delay: .19s; }
+.tl-row:nth-child(4) .tl-card{ animation-delay: .26s; }
+.tl-row:nth-child(5) .tl-card{ animation-delay: .33s; }
+.tl-row:nth-child(6) .tl-card{ animation-delay: .40s; }
+.tl-row:nth-child(7) .tl-card{ animation-delay: .47s; }
+.tl-row:nth-child(8) .tl-card{ animation-delay: .54s; }
+
+/* Fondo con movimiento sutil */
+body::before{
+  animation: gridMove 18s linear infinite;
+}
+
+/* Footer */
+.site-footer{
+  animation: fadeUp 1s ease both;
+}
+
+/* KEYFRAMES */
+@keyframes headerFade{
+  from{
+    opacity:0;
+    transform: translateY(-30px);
+  }
+  to{
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform: translateY(24px);
+  }
+  to{
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowTitle{
+  0%{
+    filter: drop-shadow(0 0 6px hsla(267, 86%, 61%, 0.2));
+  }
+  50%{
+    filter: drop-shadow(0 0 16px hsla(211, 96%, 62%, 0.55));
+  }
+  100%{
+    filter: drop-shadow(0 0 26px hsla(181, 92%, 52%, 0.5));
+  }
+}
+
+@keyframes badgeFloat{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-8px); }
+}
+
+@keyframes pulseNode{
+  0%,100%{
+    transform: scale(1);
+    box-shadow: 0 0 22px -2px var(--accent);
+  }
+  50%{
+    transform: scale(1.08);
+    box-shadow:
+      0 0 30px 4px var(--accent),
+      0 0 48px 8px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+}
+
+@keyframes trackGlow{
+  0%{ background-position: 0% 0%; }
+  100%{ background-position: 0% 100%; }
+}
+
+@keyframes shimmer{
+  to{ transform: translateX(120%); }
+}
+
+@keyframes yearFloat{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-3px); }
+}
+
+@keyframes gridMove{
+  from{ transform: translate(0,0); }
+  to{ transform: translate(32px,32px); }
+}
+
+/* Reduce animaciones en móviles */
+@media (max-width: 480px){
+  .tl-card:hover{
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .timeline-track{
+    animation-duration: 12s;
+  }
+}
+
+.scroll-top{
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  border: none;
+  overflow: visible;
+  cursor: pointer;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px);
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+}
+
+.scroll-top.visible{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top:hover{
+  transform: translateY(-2px);
+}
+
+.scroll-top svg.outer-ring{
+  width: 56px;
+  height: 56px;
+  transform: rotate(-90deg);
+}
+
+.scroll-top .ring-progress{
+  fill: none;
+  stroke-width: 4;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.2s ease;
+}
+
+.scroll-top .scroll-icon{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.4));
+  animation: glow-pulse 2.8s ease-in-out infinite;
+}
+
+.scroll-top:hover .scroll-icon{
+  transform: scale(1.05);
+}
+
+.scroll-top .scroll-icon.animate-bounce-twice{
+  animation: glow-pulse 3s ease-in-out infinite, bounce-twice 5.6s ease-in-out infinite;
+}
+
+.scroll-top .scroll-icon svg{
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+@media (max-width: 620px){
+  .scroll-top{
+    right: 14px;
+    bottom: 18px;
+    width: 50px;
+    height: 50px;
+  }
+  .scroll-top .scroll-icon svg{
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px){
+  .scroll-top{
+    right: 12px;
+    bottom: 16px;
+  }
+}
+
+@keyframes bounce-twice {
+  0%, 5.3%, 10.7%, 100% { transform: translateY(0); }
+  2.6%, 8% { transform: translateY(-8px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.35)); }
+  50% { filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.6)); }
+}
+
+</style>
+</head>
+<body>
+
+
+
+
+<div class="wrap">
+
+  <header class="site-header">
+    <div class="badges">
+      <div class="badge">IBM</div>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
+        <span class="sr-only">Cambiar tema</span>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="5.2"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" hidden>
+          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/>
+        </svg>
+      </button>
+      <div class="badge">APPLE</div>
+    </div>
+    <h1 class="site-title">La evolución del computador</h1>
+    <p class="site-subtitle">Evolución de las computadoras: ocho generaciones, del bulbo a la computación cuántica</p>
+    <p class="meta-line">Elaboró: Brandon Alvis</p>
+  </header>
+
+  <section class="timeline">
+    <div class="timeline-track" aria-hidden="true"></div>
+
+    <!-- 1. Primera generación -->
+    <div class="tl-row">
+      <div class="tl-side tl-side--left">
+        <div class="tl-card">
+          <span class="tl-year-mobile">1940 – 1951</span>
+          <p class="tl-gen-label">Primera generación</p>
+          <h2 class="tl-title">Primera generación (1940–1951)</h2>
+          <ul class="tl-list">
+            <li>Construida con bulbos o válvulas de vacío.</li>
+            <li>Equipos de gran tamaño y peso.</li>
+            <li>Memoria aproximada de 1 KB.</li>
+            <li>Uso de lenguaje binario.</li>
+            <li>Ejemplos: EDSAC, EDVAC, UNIVAC I.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-node-col">
+        <div class="tl-node" title="1940–1951">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 2h6v3.2c1.8 1.1 3 3.1 3 5.3 0 2.6-1.6 4.8-3.8 5.7L14 20h-4l-.2-3.8C7.6 15.3 6 13.1 6 10.5c0-2.2 1.2-4.2 3-5.3V2Z"/>
+            <path d="M10 8.5c.6-.8 1.4-1.2 2-1.2s1.4.4 2 1.2M10 20h4"/>
+          </svg>
+        </div>
+        <span class="tl-year">1940 – 1951</span>
+      </div>
+      <div class="tl-side tl-side--right tl-side--empty"><div class="tl-card"></div></div>
+    </div>
+
+    <!-- 2. Segunda generación -->
+    <div class="tl-row">
+      <div class="tl-side tl-side--left tl-side--empty"><div class="tl-card"></div></div>
+      <div class="tl-node-col">
+        <div class="tl-node" title="1952–1960">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3.4"/>
+            <path d="M12 2.5v6.1M6 20l3.4-5.9M18 20l-3.4-5.9"/>
+          </svg>
+        </div>
+        <span class="tl-year">1952 – 1960</span>
+      </div>
+      <div class="tl-side tl-side--right">
+        <div class="tl-card">
+          <span class="tl-year-mobile">1952 – 1960</span>
+          <p class="tl-gen-label">Segunda generación</p>
+          <h2 class="tl-title">Segunda generación (1952–1960)</h2>
+          <ul class="tl-list">
+            <li>Uso de transistores en lugar de bulbos.</li>
+            <li>Memoria de núcleo ferromagnético.</li>
+            <li>Entrada de datos mediante tarjetas y cintas perforadas.</li>
+            <li>Aparición de lenguajes de alto nivel como Fortran y COBOL.</li>
+            <li>Surgen las minicomputadoras y los terminales remotos.</li>
+            <li>Ejemplos: IBM 1401 e IBM 1602.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Tercera generación -->
+    <div class="tl-row">
+      <div class="tl-side tl-side--left">
+        <div class="tl-card">
+          <span class="tl-year-mobile">1961 – 1970</span>
+          <p class="tl-gen-label">Tercera generación</p>
+          <h2 class="tl-title">Tercera generación (1961–1970)</h2>
+          <ul class="tl-list">
+            <li>Incorporación de circuitos integrados (chips).</li>
+            <li>Nacen los sistemas operativos.</li>
+            <li>Uso de discos magnéticos y discos rígidos.</li>
+            <li>Aplicaciones en misiones espaciales y control de misiles.</li>
+            <li>Se popularizan las primeras computadoras personales.</li>
+            <li>Ejemplos: IBM System/360, DEC PDP-1, Fairchild Semiconductor.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-node-col">
+        <div class="tl-node" title="1961–1970">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="7" width="10" height="10" rx="1.2"/>
+            <path d="M9.5 7V3.5M14.5 7V3.5M9.5 20.5V17M14.5 20.5V17M7 9.5H3.5M7 14.5H3.5M20.5 9.5H17M20.5 14.5H17"/>
+          </svg>
+        </div>
+        <span class="tl-year">1961 – 1970</span>
+      </div>
+      <div class="tl-side tl-side--right tl-side--empty"><div class="tl-card"></div></div>
+    </div>
+
+    <!-- 4. Cuarta generación -->
+    <div class="tl-row">
+      <div class="tl-side tl-side--left tl-side--empty"><div class="tl-card"></div></div>
+      <div class="tl-node-col">
+        <div class="tl-node" title="1971–1981">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="12" rx="1.4"/>
+            <path d="M8 20h8M12 16v4"/>
+          </svg>
+        </div>
+        <span class="tl-year">1971 – 1981</span>
+      </div>
+      <div class="tl-side tl-side--right">
+        <div class="tl-card">
+          <span class="tl-year-mobile">1971 – 1981</span>
+          <p class="tl-gen-label">Cuarta generación</p>
+          <h2 class="tl-title">Cuarta generación (1971–1981)</h2>
+          <ul class="tl-list">
+            <li>Aparición del microprocesador.</li>
+            <li>Desarrollo de la PC comercial.</li>
+            <li>Uso de MS-DOS y sistemas de bases de datos.</li>
+            <li>Mayor capacidad de almacenamiento y multiproceso.</li>
+            <li>Se fundan Microsoft y Apple Computer.</li>
+            <li>Ejemplos: Altair, Apple I, Apple II, IBM PC, Macintosh.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Quinta generación -->
+    <div class="tl-row">
+      <div class="tl-side tl-side--left">
+        <div class="tl-card">
+          <span class="tl-year-mobile">1982 – Actualidad</span>
+          <p class="tl-gen-label">Quinta generación</p>
+          <h2 class="tl-title">Quinta generación (1982–Actualidad)</h2>
+          <ul class="tl-list">
+            <li>Chips de alta velocidad y procesamiento paralelo.</li>
+            <li>Desarrollo de la inteligencia artificial y las redes neuronales.</li>
+            <li>Uso de Internet, redes WAN, fibra óptica y telecomunicaciones.</li>
+            <li>Computadoras portátiles, smartphones, tablets y dispositivos inalámbricos.</li>
+            <li>Reconocimiento de voz, comercio electrónico y realidad virtual.</li>
+            <li>Avances hacia la computación cuántica, nanotecnología y robótica.</li>
+            <li>IBM destaca por el desarrollo de computadores cuánticos avanzados.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-node-col">
+        <div class="tl-node" title="1982–Actualidad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/>
+            <circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>
+            <circle cx="12" cy="12" r="2.4"/>
+            <path d="M7.6 7.2 10 10.4M16.4 7.2 14 10.4M7.6 16.8 10 13.6M16.4 16.8 14 13.6"/>
+          </svg>
+        </div>
+        <span class="tl-year">1982 – Actualidad</span>
+      </div>
+      <div class="tl-side tl-side--right tl-side--empty"><div class="tl-card"></div></div>
+    </div>
+
+  </section>
+
+  <footer class="site-footer">
+    <p class="footer-title">Fuentes de consulta</p>
+    <ul class="footer-list">
+      <li><a href="https://www.computerhistory.org/timeline/computers/" target="_blank" rel="noopener">Computer History Museum. (s. f.). <em>Computers | Timeline of Computer History</em>.</a></li>
+      <li><a href="https://spectrum.ieee.org/eniac-80-ieee-milestone" target="_blank" rel="noopener">IEEE Spectrum. (2026). <em>ENIAC, the General-Purpose Digital Computer, Is 80</em>.</a></li>
+      <li><a href="https://books.google.com.pe/books?id=1pJZ_GsO8_sC&printsec=frontcover&source=gbs_atb#v=onepage&q&f=false" target="_blank" rel="noopener">Ceruzzi, P. E. (2012). <em>Computing: A Concise History</em>. MIT Press.</a></li>
+      <li><a href="https://www.ibm.com/history/system-360" target="_blank" rel="noopener">IBM. (s. f.). <em>The IBM System/360</em>.</a></li>
+      <li><a href="https://www.computerhistory.org/siliconengine/microprocessor-integrates-cpu-function-onto-a-single-chip/" target="_blank" rel="noopener">Computer History Museum. (s. f.). <em>1971: Microprocessor Integrates CPU Function onto a Single Chip</em>.</a></li>
+    </ul>
+    <p class="footer-credit">CULP · 2026 · Corporación Universitaria Latinoamericana</p>
+    <p class="footer-credit">Autor: <a href="https://brandonalvis.vercel.app/" target="_blank" rel="noopener">Brandon Alvis</a></p>
+  </footer>
+
+</div>
+
+<script>
+  // Aparición animada de tarjetas
+  const cards = document.querySelectorAll('.tl-card');
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(c => io.observe(c));
+  } else {
+    cards.forEach(c => c.classList.add('is-visible'));
+  }
+
+  // Parallax suave del encabezado
+  const header = document.querySelector('.site-header');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    header.style.transform = `translateY(${y * 0.15}px)`;
+  });
+
+  // Efecto tilt 3D en las tarjetas
+  document.querySelectorAll('.tl-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateY = (x / rect.width - 0.5) * 10;
+      const rotateX = (0.5 - y / rect.height) * 10;
+
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Tema: claro/oscuro con switch y persistencia
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const html = document.documentElement;
+
+  function setTheme(theme) {
+    html.classList.toggle('theme-dark', theme === 'dark');
+    html.classList.toggle('theme-light', theme === 'light');
+    themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro');
+  }
+
+  const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+  setTheme(initialTheme);
+
+  themeToggleBtn.addEventListener('click', () => {
+    const nextTheme = html.classList.contains('theme-dark') ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+  });
+
+  const scrollTopBtn = document.createElement('button');
+  scrollTopBtn.className = 'scroll-top';
+  scrollTopBtn.setAttribute('aria-label', 'Subir al inicio');
+  scrollTopBtn.innerHTML = `
+    <svg class="outer-ring" viewBox="0 0 56 56" aria-hidden="true">
+      <circle class="ring-progress" cx="28" cy="28" r="24" stroke-dasharray="150.7" stroke-dashoffset="150.7"></circle>
+    </svg>
+    <div class="scroll-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M13.0001 7.82843V20H11.0001V7.82843L5.63614 13.1924L4.22192 11.7782L12.0001 4L19.7783 11.7782L18.3641 13.1924L13.0001 7.82843Z"></path>
+      </svg>
+    </div>
+  `;
+
+  document.body.appendChild(scrollTopBtn);
+
+  const progressCircle = scrollTopBtn.querySelector('.ring-progress');
+  const arrowIcon = scrollTopBtn.querySelector('.scroll-icon');
+  const circumference = 2 * Math.PI * 24;
+
+  function updateScrollProgress() {
+    const scrollY = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollHeight > 0 ? Math.min(1, scrollY / scrollHeight) : 1;
+    const offset = circumference - progress * circumference;
+
+    if (progressCircle) {
+      progressCircle.style.strokeDashoffset = offset.toString();
+    }
+
+    if (scrollY > 120) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+
+    if (progress > 0.98) {
+      arrowIcon?.classList.add('animate-bounce-twice');
+    } else {
+      arrowIcon?.classList.remove('animate-bounce-twice');
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('resize', updateScrollProgress);
+  updateScrollProgress();
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
